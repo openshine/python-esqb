@@ -63,6 +63,17 @@ class BaseQuery(object):
     def query(self, val: dict):
         self._query = val
 
+    @property
+    def size(self):
+        """
+        Returns the ``size`` property of the query.
+        """
+        return self._size
+
+    @size.setter
+    def size(self, val):
+        self._size = val
+
     def get_es_query(self, data: dict) -> dict:
         """
         Return the final ES query that should be presented to ESService.
@@ -74,13 +85,9 @@ class BaseQuery(object):
         for var in self.find_all_variables():
             _vars[var.name] = var
 
-        for k, v in data.items():
-            if k in _vars:
-                _vars[k].value = v
-
         return {
             'query': _replace_variables(self._filtered_query(data), data),
-            'size': self.size,
+            'size': self._size,
             'aggs': _replace_variables(self.aggs, data),
         }
 
@@ -126,7 +133,7 @@ class BaseQuery(object):
             l = [] if not include_filters else [
                 var
                 for _filter in self.filters
-                for var in _filter.variables.values() if include_filters
+                for var in _filter.get_variables().values() if include_filters
             ]
             return self.find_all_variables([self.query, self.aggs], l)
 

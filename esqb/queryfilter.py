@@ -14,7 +14,7 @@ class QueryFilter(object):
     variables optional).
     """
 
-    _variables = {}
+    variables = {}
     required = False
 
     def __call__(self, query: BaseQuery, data={}):
@@ -31,22 +31,17 @@ class QueryFilter(object):
                         self.__name__))
             return query
 
-    @property
-    def variables(self):
+    def get_variables(self):
         if self.required:
             return {
                 k: variable.copy()
-                for k, variable in self._variables.items()
+                for k, variable in self.variables.items()
             }
         else:
             return {
                 k: variable.copy(required=False)
-                for k, variable in self._variables.items()
+                for k, variable in self.variables.items()
             }
-
-    @variables.setter
-    def variables(self, value):
-        self._variables = value
 
     def can_apply(self, data):
         """
@@ -57,7 +52,7 @@ class QueryFilter(object):
 
         """
 
-        for k, v in self._variables.items():
+        for k, v in self.variables.items():
             if v.name not in data:
                 return False
         return True

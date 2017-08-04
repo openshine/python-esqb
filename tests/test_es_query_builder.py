@@ -8,23 +8,80 @@ test_esqb
 Tests for `esqb` module.
 """
 
-import pytest
+from esqb import query, variable
+
+testvar = variable.Variable('t')
 
 
-from esqb import esqb
+class Query(query.BaseQuery):
+    aggs = {
+        'x': testvar
+    }
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+def test_contains_var():
+    assert testvar in Query().find_all_variables()
 
 
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument.
-    """
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+def test_can_override_var():
+    q = Query().get_es_query({'t': 'v'})
+    assert q['aggs'] == {'x': 'v'}
+    assert q['query'] == {}
+    assert q['size'] == 0
+
+
+def test_uses_default_value():
+    class RQuery(query.BaseQuery):
+        aggs = {
+            'x': variable.Variable(
+                't', type=bool,
+                required=False,
+                default=True)
+        }
+
+    q = RQuery()
+    assert q.get_es_query({})['aggs'] == {'x': True}
+
+
+def test_throws_on_missing_required():
+    class RQuery(query.BaseQuery):
+        aggs = {
+            'x': variable.Variable(
+                't', type=bool,
+                required=True
+            )
+        }
+
+    q = RQuery()
+    try:
+        assert q.get_es_query({})
+    except Exception:
+        pass
+
+def test_complex_query_contains_multiple_vars():
+    class RQuery(query.BaseQuery):
+        aggs = {
+            'must': {
+                'bool': [
+                    {
+                        'match': {
+                            'x': variable.Variable('value', default=0)
+                        }
+                    },
+                ]
+            }
+        }
+
+    q = RQuery()
+
+    assert q.get_es_query({'term': 'x', 'value': 'y'})['aggs'] == {
+        'must': {
+            'bool': [
+                {
+                    'match': {
+                        'x': 'y'
+                    }
+                }
+            ]
+        }
+    }
