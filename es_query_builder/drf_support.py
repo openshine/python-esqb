@@ -1,6 +1,17 @@
 import collections
 
-from rest_framework import serializers
+from django.core.exceptions import ImproperlyConfigured
+try:
+    from rest_framework import serializers
+except ImproperlyConfigured:
+    import os
+    import warnings
+    warnings.warn("""Django settings not detected.
+You should use drf_support inside a Django application.
+Continuing with an empty DJANGO_SETTINGS_MODULE
+""")
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'x')
+    from rest_framework import serializers
 from rest_framework.utils import html
 
 
