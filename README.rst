@@ -2,15 +2,7 @@
 ElasticSearch Query Builder
 ===========================
 
-
-
-.. image:: https://pyup.io/repos/github/ssaavedra/es_query_builder/shield.svg
-     :target: https://pyup.io/repos/github/ssaavedra/es_query_builder/
-     :alt: Updates
-
-
 A Query Builder to build queries specially suited for ElasticSearch queries
-
 
 
 Features
