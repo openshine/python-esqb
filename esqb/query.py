@@ -41,6 +41,9 @@ class BaseQuery(object):
 
     @property
     def aggs(self):
+        """
+        Returns the ``aggs`` property of the query.
+        """
         return self._aggs
 
     @aggs.setter
@@ -49,6 +52,9 @@ class BaseQuery(object):
 
     @property
     def query(self):
+        """
+        Returns the ``query`` property of the query.
+        """
         return self._query
 
     @query.setter
@@ -84,6 +90,11 @@ class BaseQuery(object):
 
     @property
     def serializer(self, **kwargs):
+        """
+        Creates a serializer instance and returns such an instance on
+        following calls.
+
+        """
         if not self._serializer:
             self._serializer = self.get_serializer()(**kwargs)
         return self._serializer
@@ -150,6 +161,13 @@ class BaseQuery(object):
 
     @property
     def full_query(self):
+        """Returns the query as it would be compiled to be sent to
+        ElasticSearch.
+
+        Writing to this property is not supported at the
+        moment. Please use ``aggs`` and ``query``.
+
+        """
         return {
             'size': self.size,
             'query': self.query,
@@ -157,6 +175,11 @@ class BaseQuery(object):
         }
 
     def docs(self):
+        """
+        Returns the documentation of this query.
+
+        This method is deprecated, please use :func:`esqb.docs_builder.generate_query_docs`
+        """
         import warnings
         warnings.warn(
             'query.docs is deprecated. ' +

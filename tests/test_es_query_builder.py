@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-test_es_query_builder
+test_esqb
 ----------------------------------
 
-Tests for `es_query_builder` module.
+Tests for `esqb` module.
 """
 
 import pytest
 
 
-from es_query_builder import es_query_builder
+from esqb import esqb
 
 
 @pytest.fixture

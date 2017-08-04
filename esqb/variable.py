@@ -1,4 +1,4 @@
-from es_query_builder.drf_support import _default_variable_serializers
+from esqb.drf_support import _default_variable_serializers
 
 
 __all__ = ['Variable']

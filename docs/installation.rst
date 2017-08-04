@@ -12,7 +12,7 @@ To install ElasticSearch Query Builder, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install es_query_builder
+    $ pip install esqb
 
 This is the preferred method to install ElasticSearch Query Builder, as it will always install the most recent stable release. 
 
@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/ssaavedra/es_query_builder
+    $ git clone git://github.com/ssaavedra/esqb
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/ssaavedra/es_query_builder/tarball/master
+    $ curl  -OL https://github.com/ssaavedra/esqb/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/ssaavedra/es_query_builder
-.. _tarball: https://github.com/ssaavedra/es_query_builder/tarball/master
+.. _Github repo: https://github.com/ssaavedra/esqb
+.. _tarball: https://github.com/ssaavedra/esqb/tarball/master
