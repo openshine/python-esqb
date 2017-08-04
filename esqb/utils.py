@@ -9,6 +9,11 @@ def replace_variables(d, data: dict):
     if type(d) is dict:
         d = d.copy()
         for k, v in d.items():
+            if isinstance(k, Variable):
+                d[k.value_from_dict(data)] = d[k]
+                del d[k]
+                k = k.value_from_dict(data)
+
             if isinstance(v, Variable):
                 d[k] = v.value_from_dict(data)
             else:

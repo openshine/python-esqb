@@ -65,7 +65,7 @@ def test_complex_query_contains_multiple_vars():
                 'bool': [
                     {
                         'match': {
-                            'x': variable.Variable('value', default=0)
+                            variable.Variable('term', default=0): variable.Variable('value', default=0)
                         }
                     },
                 ]
