@@ -1,11 +1,8 @@
-
 import json
 
 from .variable import Variable
 
-
 __all__ = ['generate_query_docs']
-
 
 _docs_template = """
 * **ID**: ``{id}``
@@ -27,10 +24,12 @@ def generate_query_docs(q, _filter=None):
         id=q.get_id(),
         name=q.name,
         long_description=q.__doc__,
-        query='\n  '.join(json.dumps(q.full_query,
-                                     indent=2,
-                                     default=_explaining_json_encoder,
-                                     sort_keys=True).split('\n')))
+        query='\n  '.join(
+            json.dumps(
+                q.full_query,
+                indent=2,
+                default=_explaining_json_encoder,
+                sort_keys=True).split('\n')))
 
 
 def _explaining_json_encoder(obj):

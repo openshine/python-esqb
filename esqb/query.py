@@ -1,4 +1,3 @@
-
 import os
 import sys
 from copy import deepcopy
@@ -8,14 +7,17 @@ from .utils import replace_variables as _replace_variables
 
 
 class BaseQuery(object):
-    """This object contains everything necessary to create serializers
+    """
+    This object contains everything necessary to create serializers
     from queries. This object resolves variables in queries as well as
     possible filters (optional or required) which may change the final
     query to be given to ES.
 
     """
+
     def __init__(self):
-        """We make this arcane magic here so that we can have several
+        """
+        We make this arcane magic here so that we can have several
         instances of the same query and their base (class-based)
         attributes will not change if modified (because there is a
         copy in the instance).
@@ -47,7 +49,7 @@ class BaseQuery(object):
         return self._aggs
 
     @aggs.setter
-    def aggs(self, val):
+    def aggs(self, val: dict):
         self._aggs = val
 
     @property
@@ -58,11 +60,12 @@ class BaseQuery(object):
         return self._query
 
     @query.setter
-    def query(self, val):
+    def query(self, val: dict):
         self._query = val
 
     def get_es_query(self, data: dict) -> dict:
-        """Return the final ES query that should be presented to ESService.
+        """
+        Return the final ES query that should be presented to ESService.
 
         This function scans variables and fills their values with the
         provided arg `data`.
@@ -109,11 +112,9 @@ class BaseQuery(object):
         this module becomes drf_free.
         """
         import warnings
-        warnings.warn(
-            "Query.get_serialiser is deprecated. " +
-            "Use drf_support.get_query_serializer instead(query)",
-            DeprecationWarning
-        )
+        warnings.warn("Query.get_serialiser is deprecated. " +
+                      "Use drf_support.get_query_serializer instead(query)",
+                      DeprecationWarning)
         from . import drf_support
         return drf_support.get_query_serializer(self)
 
@@ -125,8 +126,7 @@ class BaseQuery(object):
             l = [] if not include_filters else [
                 var
                 for _filter in self.filters
-                for var in _filter.variables.values()
-                if include_filters
+                for var in _filter.variables.values() if include_filters
             ]
             return self.find_all_variables([self.query, self.aggs], l)
 
@@ -144,7 +144,7 @@ class BaseQuery(object):
                     self.find_all_variables(v, l)
         return l
 
-    def dotget(self, doc, path):
+    def dotget(self, doc: dict, path: str):
         """
         Utility function to navigate paths using dot-notation.
         """
@@ -161,7 +161,8 @@ class BaseQuery(object):
 
     @property
     def full_query(self):
-        """Returns the query as it would be compiled to be sent to
+        """
+        Returns the query as it would be compiled to be sent to
         ElasticSearch.
 
         Writing to this property is not supported at the
@@ -178,13 +179,13 @@ class BaseQuery(object):
         """
         Returns the documentation of this query.
 
-        This method is deprecated, please use :func:`esqb.docs_builder.generate_query_docs`
+        This method is deprecated, please use
+        :func:`esqb.docs_builder.generate_query_docs`
+
         """
         import warnings
-        warnings.warn(
-            'query.docs is deprecated. ' +
-            'Use docs_builder.generate_query_docs(query)',
-            DeprecationWarning)
+        warnings.warn('query.docs is deprecated. ' +
+                      'Use docs_builder.generate_query_docs(query)',
+                      DeprecationWarning)
         from .docs_builder import generate_query_docs
         return generate_query_docs(self)
-

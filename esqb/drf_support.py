@@ -35,9 +35,7 @@ def get_variable_serializer_field(variable):
         del sfo['default']
 
     return get_variable_serializer_field_class()(
-        help_text=variable.help_text,
-        **sfo
-    )
+        help_text=variable.help_text, **sfo)
 
 
 def get_variable_serializer_field_class(variable):
@@ -71,7 +69,7 @@ def get_query_serializer(query, hide=()):
         for var in query.find_all_variables()
         if var not in hide and var.name not in hide
     }
-    return type(name, (serializers.Serializer,), params)
+    return type(name, (serializers.Serializer, ), params)
 
 
 class ListField(serializers.ListField):

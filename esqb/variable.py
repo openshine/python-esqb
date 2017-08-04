@@ -1,6 +1,3 @@
-from esqb.drf_support import _default_variable_serializers
-
-
 __all__ = ['Variable']
 
 
@@ -12,14 +9,16 @@ class Variable(object):
     selected, but may be overridden in the cosntructor, as well as
     further parameters.
     """
-    def __init__(self, name,
-                 default=None,
-                 type=int,
-                 required=False,
-                 help_text='Unknown variable',
-                 serializer_class=None,
-                 serializer_options=None,
-                 ):
+
+    def __init__(
+            self,
+            name: str,
+            default=None,
+            type: type=str,
+            required: bool=False,
+            help_text: str='Unknown variable',
+            serializer_class=None,
+            serializer_options=None, ):
         self.name = name
         self.default = default
         self.type = type
@@ -37,11 +36,9 @@ class Variable(object):
         """
         d = self.__dict__.copy()
         d.update(kwargs)
-        return Variable(
-            **d
-        )
+        return Variable(**d)
 
-    def value_from_dict(self, d=None):
+    def value_from_dict(self, d: dict=None):
         """
         Returns the value of the variable given the received data.
 
@@ -53,9 +50,7 @@ class Variable(object):
             d = {}
         if self.required and self.name not in d:
             raise Exception(
-                "Required variable {} does not have a value".format(
-                    self.name)
-            )
+                "Required variable {} does not have a value".format(self.name))
         else:
             return d.get(self.name, self.default)
 
@@ -66,21 +61,19 @@ class Variable(object):
         if self.required:
             return '${{{name}:?Required. {doc}}}'.format(
                 name=self.name,
-                doc=self.help_text,
-            )
+                doc=self.help_text, )
         else:
             return '${{{name}:-{default}:?{doc}}}'.format(
                 name=self.name,
                 default=self.default,
-                doc=self.help_text,
-            )
+                doc=self.help_text, )
 
     def __repr__(self):
         """Returns a representation of the object for schematic purposes.
-        (R) means required, (O) means optional."""
+        (R) means required, (O) means optional.
+        """
         return "<Var [{name} :: {type} = {default} {req}]>".format(
             name=self.name,
             type=self.type.__name__,
             default=repr(self.default),
-            req="(R)" if self.required else "(O)"
-        )
+            req="(R)" if self.required else "(O)")

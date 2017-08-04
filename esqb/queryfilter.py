@@ -1,3 +1,6 @@
+from .query import BaseQuery
+
+
 class QueryFilter(object):
     """
     A QueryFilter is an object that can be used in a query to restrict
@@ -14,7 +17,7 @@ class QueryFilter(object):
     _variables = {}
     required = False
 
-    def __call__(self, query, data={}):
+    def __call__(self, query: BaseQuery, data={}):
         """
         A filter is callable this way. Receives the query (which can be
         mutated) and the data from forms or otherwise.
@@ -25,9 +28,7 @@ class QueryFilter(object):
             if self.required:
                 raise Exception(
                     'Filter {} is required but variables were missing.'.format(
-                        self.__name__
-                    )
-                )
+                        self.__name__))
             return query
 
     @property
@@ -66,4 +67,3 @@ class QueryFilter(object):
         Override this function in your filter so that it does something.
         """
         return query
-
