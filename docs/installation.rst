@@ -5,47 +5,32 @@ Installation
 ============
 
 
-Stable release
---------------
+As a pip package
+----------------
 
-To install ElasticSearch Query Builder, run this command in your terminal:
+You can use a git-based URL in a pip installation:
 
 .. code-block:: console
 
-    $ pip install esqb
-
-This is the preferred method to install ElasticSearch Query Builder, as it will always install the most recent stable release. 
-
-If you don't have `pip`_ installed, this `Python installation guide`_ can guide
-you through the process.
-
-.. _pip: https://pip.pypa.io
-.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
+    $ pip install git+https://github.com/openshine/python_esqb.git#egg=esqb
 
 
 From sources
 ------------
 
-The sources for ElasticSearch Query Builder can be downloaded from the `Github repo`_.
+The sources for ElasticSearch Query Builder can be downloaded from the `GitHub repo`_.
 
-You can either clone the public repository:
-
-.. code-block:: console
-
-    $ git clone git://github.com/ssaavedra/esqb
-
-Or download the `tarball`_:
+First, clone the repository:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/ssaavedra/esqb/tarball/master
+    $ git clone https://github.com/openshine/python_esqb.git
 
 Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ pip install -e .
 
 
-.. _Github repo: https://github.com/ssaavedra/esqb
-.. _tarball: https://github.com/ssaavedra/esqb/tarball/master
+.. _GitHub repo: https://github.com/openshine/python_esqb
