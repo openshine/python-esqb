@@ -19,7 +19,7 @@ def replace_variables(d, data: dict):
             else:
                 d[k] = replace_variables(v, data)
     elif type(d) is list:
-        d[:] = d
+        d = d[:]
         for i, v in enumerate(d):
             if isinstance(v, Variable):
                 d[i] = v.value_from_dict(data)

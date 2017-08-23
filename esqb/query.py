@@ -204,7 +204,7 @@ class BaseQuery(object):
             'sort': self.sort
         }
 
-    def docs(self):
+    def docs(self, variables):
         """
         Returns the documentation of this query.
 
@@ -217,9 +217,9 @@ class BaseQuery(object):
                       'Use docs_builder.generate_query_docs(query)',
                       DeprecationWarning)
         from .docs_builder import generate_query_docs
-        return generate_query_docs(self)
+        return generate_query_docs(self, variables)
 
-    def view_docs(self):
+    def view_docs(self, variables):
         """
         Returns the view documentation of this query.
 
@@ -232,4 +232,4 @@ class BaseQuery(object):
                       'Use docs_builder.generate_view_docs(query)',
                       DeprecationWarning)
         from .docs_builder import generate_view_docs
-        return generate_view_docs(self)
+        return generate_view_docs(self, variables)
