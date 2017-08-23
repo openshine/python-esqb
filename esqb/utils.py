@@ -25,4 +25,6 @@ def replace_variables(d, data: dict):
                 d[i] = v.value_from_dict(data)
             else:
                 d[i] = replace_variables(v, data)
+    elif isinstance(d, Variable):
+        d = d.value_from_dict(data)
     return d

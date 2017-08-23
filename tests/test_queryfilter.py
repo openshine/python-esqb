@@ -75,6 +75,15 @@ def test_queryfilter_filters_query():
     class Q(query.BaseQuery):
         filters = [QF()]
 
-    assert Q().get_es_query({}) == {'aggs': {}, 'query': {}, 'size': 0}
+    assert Q().get_es_query({}) == {
+        'aggs': {},
+        'query': {},
+        'size': 0,
+        'sort': []
+    }
     assert Q().get_es_query({'t': 'x'}) == \
-        {'aggs': {}, 'query': {'a': 'b'}, 'size': 0}
+        {'aggs': {},
+         'query': {'a': 'b'},
+         'size': 0,
+         'sort': []
+         }

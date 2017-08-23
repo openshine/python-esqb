@@ -1,0 +1,12 @@
+stages:
+- test
+
+tests:
+  image: python:3.6
+  stage: test
+  script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install --upgrade pip
+    - pip install -r requirements_dev.txt
+    - python -m pytest . -vv --cov=esqb --cov-report term

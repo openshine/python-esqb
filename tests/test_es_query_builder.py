@@ -58,6 +58,7 @@ def test_throws_on_missing_required():
     except Exception:
         pass
 
+
 def test_complex_query_contains_multiple_vars():
     class RQuery(query.BaseQuery):
         aggs = {
@@ -65,7 +66,9 @@ def test_complex_query_contains_multiple_vars():
                 'bool': [
                     {
                         'match': {
-                            variable.Variable('term', default=0): variable.Variable('value', default=0)
+                            variable.Variable(
+                                'term', default=0
+                            ): variable.Variable('value', default=0)
                         }
                     },
                 ]

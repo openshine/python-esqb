@@ -30,6 +30,7 @@ class BaseQuery(object):
         self._aggs = deepcopy(self.__class__.__dict__.get('aggs', {}))
         self._query = deepcopy(self.__class__.__dict__.get('query', {}))
         self.filters = deepcopy(self.__class__.__dict__.get('filters', {}))
+        self._sort = deepcopy(self.__class__.__dict__.get('sort', []))
         self._serializer = None
 
     def get_id(self):
@@ -74,6 +75,17 @@ class BaseQuery(object):
     def size(self, val):
         self._size = val
 
+    @property
+    def sort(self):
+        """
+        Returns the ``sort`` property of the query.
+        """
+        return self._sort
+
+    @sort.setter
+    def sort(self, val):
+        self._sort = val
+
     def get_es_query(self, data: dict) -> dict:
         """
         Return the final ES query that should be presented to ESService.
@@ -85,10 +97,15 @@ class BaseQuery(object):
         for var in self.find_all_variables():
             _vars[var.name] = var
 
+        for k, v in data.items():
+            if k in _vars:
+                _vars[k].value = v
+
         return {
             'query': _replace_variables(self._filtered_query(data), data),
-            'size': self._size,
+            'size': _replace_variables(self.size, data),
             'aggs': _replace_variables(self.aggs, data),
+            'sort': _replace_variables(self.sort, data),
         }
 
     def _filtered_query(self, data: dict) -> dict:
@@ -135,7 +152,9 @@ class BaseQuery(object):
                 for _filter in self.filters
                 for var in _filter.get_variables().values() if include_filters
             ]
-            return self.find_all_variables([self.query, self.aggs], l)
+            return self.find_all_variables(
+                [self.query, self.aggs, self.size, self.sort], l
+            )
 
         if type(docs) is list:
             for elt in docs:
@@ -145,6 +164,8 @@ class BaseQuery(object):
                     self.find_all_variables(elt, l)
         elif type(docs) is dict:
             for k, v in docs.items():
+                if type(k) is Variable:
+                    l.append(k)
                 if type(v) is Variable:
                     l.append(v)
                 else:
@@ -180,6 +201,7 @@ class BaseQuery(object):
             'size': self.size,
             'query': self.query,
             'aggs': self.aggs,
+            'sort': self.sort
         }
 
     def docs(self):
@@ -196,3 +218,18 @@ class BaseQuery(object):
                       DeprecationWarning)
         from .docs_builder import generate_query_docs
         return generate_query_docs(self)
+
+    def view_docs(self):
+        """
+        Returns the view documentation of this query.
+
+        This method is deprecated, please use
+        :func:`esqb.docs_builder.generate_view_docs`
+
+        """
+        import warnings
+        warnings.warn('query.docs is deprecated. ' +
+                      'Use docs_builder.generate_view_docs(query)',
+                      DeprecationWarning)
+        from .docs_builder import generate_view_docs
+        return generate_view_docs(self)
