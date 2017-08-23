@@ -34,7 +34,7 @@ def get_variable_serializer_field(variable):
     elif 'default' in sfo:
         del sfo['default']
 
-    return get_variable_serializer_field_class()(
+    return get_variable_serializer_field_class(variable)(
         help_text=variable.help_text, **sfo)
 
 
@@ -65,7 +65,7 @@ def get_query_serializer(query, hide=()):
     """
     name = "Synthetic" + query.get_id()[0] + "Serializer"
     params = {
-        var.name: var.get_serializer_field()
+        var.name: get_variable_serializer_field(var)
         for var in query.find_all_variables()
         if var not in hide and var.name not in hide
     }
@@ -91,7 +91,8 @@ class ListField(serializers.ListField):
 
 _default_variable_serializers = {
     int: serializers.IntegerField,
+    float: serializers.FloatField,
     str: serializers.CharField,
     bool: serializers.BooleanField,
-    list: ListField,
+    list: ListField
 }
