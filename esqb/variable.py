@@ -8,6 +8,9 @@ class Variable(object):
     can be constructed. The serializer class can be automatically
     selected, but may be overridden in the cosntructor, as well as
     further parameters.
+    You can define a method (builder) that builds a part of the query
+    if you need more than a simple replacement.
+    For example, build a date_histogram or a histogram depending on the value.
     """
 
     def __init__(
@@ -18,7 +21,8 @@ class Variable(object):
             required: bool=False,
             help_text: str='Unknown variable',
             serializer_class=None,
-            serializer_options=None, ):
+            serializer_options=None,
+            builder=None):
         self.name = name
         self.default = default
         self.type = type
@@ -26,6 +30,7 @@ class Variable(object):
         self.help_text = help_text
         self.serializer_options = serializer_options or {}
         self.serializer_class = serializer_class
+        self.builder = builder
 
     def copy(self, **kwargs):
         """
@@ -52,7 +57,9 @@ class Variable(object):
             raise Exception(
                 "Required variable {} does not have a value".format(self.name))
         else:
-            return d.get(self.name, self.default)
+            if self.builder is None:
+                return d.get(self.name, self.default)
+            return self.builder(d.get(self.name, self.default))
 
     def __str__(self):
         """

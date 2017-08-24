@@ -29,7 +29,7 @@ class BaseQuery(object):
         self._size = self.__class__.__dict__.get('size', 0)
         self._aggs = deepcopy(self.__class__.__dict__.get('aggs', {}))
         self._query = deepcopy(self.__class__.__dict__.get('query', {}))
-        self.filters = deepcopy(self.__class__.__dict__.get('filters', {}))
+        self.filters = deepcopy(self.__class__.__dict__.get('filters', []))
         self._sort = deepcopy(self.__class__.__dict__.get('sort', []))
         self._serializer = None
 
