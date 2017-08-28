@@ -1,12 +1,37 @@
 stages:
 - test
+- pages
 
 tests:
   image: python:3.6
   stage: test
   script:
+    - mkdir -p public/docs
     - python -m venv venv
     - source venv/bin/activate
     - pip install --upgrade pip
     - pip install -r requirements_dev.txt
-    - python -m pytest . -vv --cov=esqb --cov-report term
+    - python -m pytest . -vv --cov=esqb --cov-report term --cov-report term --cov-report html
+    - python create-docs.py
+    - mv coverage ./public/coverage
+    - cd docs
+    - make html
+    - mv build/html/* ../public/docs
+    - cd ..
+  artifacts:
+    paths:
+      - public/
+
+pages:
+  image: busybox
+  stage: pages
+  dependencies:
+    - tests
+  script:
+    - cp _docs/index.html public
+  artifacts:
+    paths:
+      - public
+  only:
+    - develop
+    - feature/docs
