@@ -101,18 +101,15 @@ class BaseQuery(object):
             if k in _vars:
                 _vars[k].value = v
 
-        return {
-            'query': _replace_variables(self._filtered_query(data), data),
-            'size': _replace_variables(self.size, data),
-            'aggs': _replace_variables(self.aggs, data),
-            'sort': _replace_variables(self.sort, data),
-        }
+        return {_q: _replace_variables(self._filtered(_q, data), data)
+                for _q in ('query', 'size', 'aggs', 'sort')}
 
-    def _filtered_query(self, data: dict) -> dict:
-        """Filters a query with the defined query filters"""
-        d = deepcopy(self.query)
+    def _filtered(self, query_field, data: dict) -> dict:
+        """Filters the query parts with the defined query filters"""
+        d = deepcopy(getattr(self, query_field))
         for _filter in self.filters:
-            d = _filter(d, data)
+            if _filter.query_field == query_field:
+                d = _filter(d, data)
         return d
 
     @property

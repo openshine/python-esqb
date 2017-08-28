@@ -69,7 +69,7 @@ def test_queryfilter_filters_query():
             't': variable.Variable('t', required=True)
         }
 
-        def apply(self, query):
+        def apply(self, query, data):
             return {"a": "b"}
 
     class Q(query.BaseQuery):

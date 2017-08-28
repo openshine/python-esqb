@@ -12,8 +12,11 @@ class QueryFilter(object):
     data which may (or must) be received from the API call. A filter
     may be required or optional (optional filters makes all its
     variables optional).
-    """
 
+    The variable query_field is used to define which part of the query
+    will be filtered (query, aggs, size, sort)
+    """
+    query_field = 'query'
     variables = {}
     required = False
 
@@ -23,7 +26,7 @@ class QueryFilter(object):
         mutated) and the data from forms or otherwise.
         """
         if self.can_apply(data):
-            return self.apply(query)
+            return self.apply(query, data)
         else:
             if self.required:
                 raise Exception(
@@ -57,7 +60,7 @@ class QueryFilter(object):
                 return False
         return True
 
-    def apply(self, query):
+    def apply(self, query, data):
         """
         Override this function in your filter so that it does something.
         """
