@@ -97,10 +97,6 @@ class BaseQuery(object):
         for var in self.find_all_variables():
             _vars[var.name] = var
 
-        for k, v in data.items():
-            if k in _vars:
-                _vars[k].value = v
-
         return {_q: _replace_variables(self._filtered(_q, data), data)
                 for _q in ('query', 'size', 'aggs', 'sort')}
 
