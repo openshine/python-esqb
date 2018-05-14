@@ -7,6 +7,79 @@ A Query Builder to build queries specially suited for ElasticSearch queries
 Examples
 --------
 
+Basic example
++++++++++++++
+
+This code show how to define a simple query.
+
+.. code-block:: python
+
+    from esqb.query import BaseQuery
+
+
+    class AccountStatsCount(IVISubscriberSummaryFilterBar):
+        size = 0
+        query = {
+            "bool": {
+                "must": [
+                    {
+                        "term": {
+                            "name": {
+                                "value": "esqb"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+        aggs = {
+            "by_logtime": {
+                "date_histogram": {
+                    "field": "time",
+                    "interval": "day",
+                    "order": {
+                        "_key": "desc"
+                    }
+                }
+            }
+        }
+
+and this is the generated query.
+        
+.. code-block:: json
+
+    {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "term": {
+                "name": {
+                  "value": "esqb"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "size": 0,
+      "aggs": {
+        "by_logtime": {
+          "date_histogram": {
+            "field": "time",
+            "interval": "day",
+            "order": {
+              "_key": "desc"
+            }
+          }
+        }
+      },
+      "sort": []
+    }
+
+Variables and filters
++++++++++++++++++++++
+
 Example to create a query to show the the last **N** documents ordered by a **sort_field** between two dates (**ts** and **te**)
 
 v.py
