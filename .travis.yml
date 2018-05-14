@@ -4,11 +4,10 @@ python:
   - "3.5"
   - "3.6"
 install:
-  - pip install -r requirements.txt
+  - pip install -r requirements_dev.txt
   - pip install tox-travis
 script:
   - tox
-  - py.test -vv --cov=esqb --cov-report term --cov-report term --cov-report html
 #deploy:
 #  provider: pypi
 #  user: "Your username"
