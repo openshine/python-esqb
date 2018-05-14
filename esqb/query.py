@@ -135,35 +135,35 @@ class BaseQuery(object):
         from . import drf_support
         return drf_support.get_query_serializer(self)
 
-    def find_all_variables(self, docs=None, l=None, include_filters=True):
+    def find_all_variables(self, docs=None, prev=None, include_filters=True):
         """
         Returns all variables found in the query and its filters
         """
         if docs is None:
-            l = [] if not include_filters else [
+            prev = [] if not include_filters else [
                 var
                 for _filter in self.filters
                 for var in _filter.get_variables().values() if include_filters
             ]
             return self.find_all_variables(
-                [self.query, self.aggs, self.size, self.sort], l
+                [self.query, self.aggs, self.size, self.sort], prev
             )
 
         if type(docs) is list:
             for elt in docs:
                 if type(elt) is Variable:
-                    l.append(elt)
+                    prev.append(elt)
                 else:
-                    self.find_all_variables(elt, l)
+                    self.find_all_variables(elt, prev)
         elif type(docs) is dict:
             for k, v in docs.items():
                 if type(k) is Variable:
-                    l.append(k)
+                    prev.append(k)
                 if type(v) is Variable:
-                    l.append(v)
+                    prev.append(v)
                 else:
-                    self.find_all_variables(v, l)
-        return l
+                    self.find_all_variables(v, prev)
+        return prev
 
     def dotget(self, doc: dict, path: str):
         """

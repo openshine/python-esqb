@@ -1,0 +1,31 @@
+CHANGES
+=======
+
+* Create LICENSE
+* variable value bug in get\_es\_query fixed
+* gitlab pages added
+* query filter updated to filter all parts
+* new variable fuctionality
+* get variable serializer fixed
+* utils and docs fixed
+* CI support and elasticsearch sort query functionality added
+* A bit of documentation
+* Support variables in dictionary keys
+* Add many tests and several fixes
+* Add pbr to requirements
+* Remove AUTHORS.rst and use Mailinfo-like format
+* Add more types in signatures and improve formatting for docs
+* Rename es\_query\_builder as esqb
+* Fix drf\_support with documentation generation
+* Autogenerate modules documentation
+* Take version info from pbr on \_\_init\_\_
+* Use pbr instead of manually coding everything into setup.py
+* Remove empty file
+* Add BaseQuery to perform ElasticSearch queries
+* Add the QueryFilter mechanism for filtering queries
+* Add a function to replace variables by their values in dictionaries
+* Define Variable datatype
+* Externalize docs generation outside BaseQuery
+* Add external and optional DRF support
+* Support only Python 3
+* Initial commit
