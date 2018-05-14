@@ -9,10 +9,10 @@ install:
 script:
   - tox
   - py.test -vv --cov=esqb --cov-report term --cov-report term --cov-report html
-deploy:
-  provider: pypi
-  user: "Your username"
-  password: "Your password"
-  on:
-    tags: true
-    branch: master
+#deploy:
+#  provider: pypi
+#  user: "Your username"
+#  password: "Your password"
+#  on:
+#    tags: true
+#    branch: master
