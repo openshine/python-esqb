@@ -12,7 +12,7 @@ You can use a git-based URL in a pip installation:
 
 .. code-block:: console
 
-    $ pip install git+https://github.com/openshine/python_esqb.git#egg=esqb
+    $ pip install git+https://github.com/openshine/python-esqb.git#egg=esqb
 
 
 From sources
@@ -24,7 +24,7 @@ First, clone the repository:
 
 .. code-block:: console
 
-    $ git clone https://github.com/openshine/python_esqb.git
+    $ git clone https://github.com/openshine/python-esqb.git
 
 Once you have a copy of the source, you can install it with:
 
@@ -33,4 +33,4 @@ Once you have a copy of the source, you can install it with:
     $ pip install -e .
 
 
-.. _GitHub repo: https://github.com/openshine/python_esqb
+.. _GitHub repo: https://github.com/openshine/python-esqb
