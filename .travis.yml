@@ -1,17 +1,19 @@
 language: python
 python:
-  - "3.4"
-  - "3.5"
-  - "3.6"
+- '3.4'
+- '3.5'
+- '3.6'
 install:
-  - pip install -r requirements_dev.txt
-  - pip install tox-travis
+- pip install -r requirements_dev.txt
+- pip install tox-travis
 script:
-  - tox
-#deploy:
-#  provider: pypi
-#  user: "Your username"
-#  password: "Your password"
-#  on:
-#    tags: true
-#    branch: master
+- tox
+deploy:
+  provider: pypi
+  user: openshine
+  password:
+    secure: IahhZmlAQ884W5q0kMZ31a4rbNVd39R31NcL4gGlfyTaxgK9TutelHuvFtEDQoy+YJESxEBAozRtW+Bb1NMePGtjGwblymu6rlCrkWsmMZbMprwhyW2+Z7UFmZiOJvqMXnbbMyJtWh9rAJrAoXtZ90JNSfN7/RSY/wQnmCm3JI1jdv/ivyR9SAmCpIgWtzj8BjLU7vfv5rllZrx6fXtOGWuua32BN9/oT0Aucg8okKQvrQq2lT7j8bLggjV5n4ri7D4Ir1BPm3NiwYc7EE+beczLTkuSTVcRPpRjstv9VgNmGNsRoikEYoaEY/qZ0RW7lDX4+gVrlhCRhvrvV8TzuHvJxV83vf5YonSQXEJrT3iu64lhejYuW8MtySLDQETG5f0NTYVKXTzgkxdKK13waQsnYqWvsUfPmJ5PzwO39nlz7c588WtTsl2ENfJFAFPP1hDiW1zEJwL7eH7wYAlJDotnvgLKTZ9JRH4PApaEGgTPLxCWDxFi48PvdkL716upfTjOxnoP+SRlS4q2ePtz+fladzG3QKz/ZnEeGR2JgVS5UZDzwK2zx+KR8D68sStEJk+P4DiphToXNGvnHpWRSHPRGiY7FHa2Lnrxc7KAmrqpJxNEnc8K7Rpiufy1wUAvkFhWNCrgNC5YykjGgYFsFASvWJqb3NTOBL/vzbsbhqw=
+  on:
+    tags: true
+    distributions: sdist
+    repo: openshine/python-esqb
