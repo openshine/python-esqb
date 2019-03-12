@@ -20,7 +20,7 @@ This code show how to define a simple query.
     from esqb.query import BaseQuery
 
 
-    class SimpleQuery():
+    class SimpleQuery(BaseQuery):
         size = 0
         query = {
             "bool": {
